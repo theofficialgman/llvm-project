@@ -29,25 +29,10 @@ inputs:
     description: >-
       sha256 digest to verify the authenticity of the files being uploaded.
     required: true
-  LLVM_TOKEN_GENERATOR_CLIENT_ID:
-    description: >-
-      Client ID for our GitHub App we use for generating access tokens.
-    required: true
-  LLVM_TOKEN_GENERATOR_PRIVATE_KEY:
-    description: >-
-      Private key for our GitHub App we use for generating access tokens.
-    required: true
 
 runs:
   using: "composite"
   steps:
-    - name: Check Permissions
-      uses: $/.github/workflows/require-team-membership
-      with:
-        team-slug: llvm-release-managers
-        LLVM_TOKEN_GENERATOR_CLIENT_ID: ${{ inputs.LLVM_TOKEN_GENERATOR_CLIENT_ID }}
-        LLVM_TOKEN_GENERATOR_PRIVATE_KEY: ${{ inputs.LLVM_TOKEN_GENERATOR_PRIVATE_KEY }}
-
     - name: Validate Input
       uses: $/.github/workflows/validate-release-version
       with:

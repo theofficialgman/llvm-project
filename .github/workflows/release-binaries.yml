@@ -38,13 +38,6 @@ on:
         description: "Runner to use for the build"
         required: true
         type: string
-    secrets:
-      LLVM_TOKEN_GENERATOR_CLIENT_ID:
-        description: "Client ID for our GitHub App we use for generating access tokens."
-        required: true
-      LLVM_TOKEN_GENERATOR_PRIVATE_KEY:
-        description: "Private key for our GitHub App we use for generating access tokens."
-        required: true
 
 
 permissions:
@@ -54,7 +47,6 @@ jobs:
   prepare:
     name: Prepare to build binaries
     runs-on: ${{ inputs.runs-on }}
-    if: github.repository_owner == 'llvm'
     outputs:
       release-version: ${{ steps.vars.outputs.release-version }}
       ref: ${{ steps.vars.outputs.ref }}
@@ -223,7 +215,6 @@ jobs:
   build-release-package:
     name: "Build Release Package"
     needs: prepare
-    if: github.repository_owner == 'llvm'
     runs-on: ${{ needs.prepare.outputs.build-runs-on }}
     outputs:
       digest: ${{ steps.digest.outputs.digest }}
@@ -406,5 +397,3 @@ jobs:
           attestation-name: ${{ needs.prepare.outputs.attestation-name }}
           digest: ${{ needs.build-release-package.outputs.digest }}
           upload: ${{ needs.prepare.outputs.upload }}
-          LLVM_TOKEN_GENERATOR_CLIENT_ID: ${{ secrets.LLVM_TOKEN_GENERATOR_CLIENT_ID }}
-          LLVM_TOKEN_GENERATOR_PRIVATE_KEY: ${{ secrets.LLVM_TOKEN_GENERATOR_PRIVATE_KEY }}
