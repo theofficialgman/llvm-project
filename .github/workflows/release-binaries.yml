@@ -167,7 +167,7 @@ jobs:
 
         case "$INPUTS_RUNS_ON" in
           ubuntu-22.04* | windows-2022)
-            build_runs_on="depot-$INPUTS_RUNS_ON-16"
+            build_runs_on="$INPUTS_RUNS_ON"
             test_runs_on=$build_runs_on
             ;;
           windows-11-arm)
